@@ -8,9 +8,8 @@ browser.contextMenus.create({
 
 browser.contextMenus.onClicked.addListener((info, tab) => {
 	if (info.menuItemId === "share-video-at-current-timestamp") {
-		// TODO: More robust error checking ( since srcURL might be empty )
-		sourceURL = info.srcUrl;
-		browser.tabs.executeScript(tab.id, { file: "MediaSeekContentScript.js" })
-		console.log("Right-Click-Menu added successfully");
+		browser.tabs.executeScript(tab.id, { file: "MediaSeekContentScript.js" }, () => {
+			browser.tabs.sendMessage(tab.id, { type: 'share-video', srcUrl: info.srcUrl });
+		});
 	}
 });
