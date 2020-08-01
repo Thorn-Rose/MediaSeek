@@ -1,17 +1,26 @@
 var browser = browser || chrome;
+var lastTargetElement = null;
 
-var mediaShareMessageListener = mediaShareMessageListener || function (message) {
+document.addEventListener('contextmenu', (event) => {
+    lastTargetElement = event.target;
+    console.log(lastTargetElement);
+}, false);
+
+browser.runtime.onMessage.addListener((message) => {
     if (message && message.type === 'share-video') {
-        const srcUrl  = new URL(message.srcUrl);
-        const element = document.querySelector(`video source[src="${message.srcUrl}"]`).closest('video');
+        if (!lastTargetElement) {
+            return;
+        }
 
-        srcUrl.hash = `t=${Math.round(element.currentTime)}`;
+        const videoSource = lastTargetElement.currentSrc ||
+            lastTargetElement.getElementsByTagName('source')[0]?.src ||
+            message.srcUrl;
+
+        const srcUrl = new URL(videoSource);
+
+        srcUrl.hash = `t=${Math.round(lastTargetElement.currentTime)}`;
         console.log(srcUrl);
 
         navigator.clipboard.writeText(srcUrl.toString());
     }
-};
-
-if (!browser.runtime.onMessage.hasListener(mediaShareMessageListener)) {
-    browser.runtime.onMessage.addListener(mediaShareMessageListener);
-}
+});
