@@ -1,0 +1,14 @@
+{  
+  "description": "Share video at specific times!",
+  "manifest_version": 2,
+  "name": "MediaSeek",
+  "version": "1.0",
+
+  "background": {
+    "scripts": [
+      "MediaSeek.js"
+    ]
+  },
+
+  "permissions": ["contextMenus", "activeTab"]
+}
