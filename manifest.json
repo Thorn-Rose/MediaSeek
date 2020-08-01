@@ -9,6 +9,11 @@
       "MediaSeek.js"
     ]
   },
-
-  "permissions": ["contextMenus", "activeTab"]
+  "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "js": ["MediaSeekContentScript.js"]
+    }
+  ],
+  "permissions": ["contextMenus", "activeTab", "clipboardWrite"]
 }
