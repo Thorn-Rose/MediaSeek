@@ -8,8 +8,6 @@ browser.contextMenus.create({
 
 browser.contextMenus.onClicked.addListener((info, tab) => {
 	if (info.menuItemId === "share-video-at-current-timestamp") {
-		browser.tabs.executeScript(tab.id, { file: "MediaSeekContentScript.js" }, () => {
-			browser.tabs.sendMessage(tab.id, { type: 'share-video', srcUrl: info.srcUrl });
-		});
+		browser.tabs.sendMessage(tab.id, { type: 'share-video', srcUrl: info.srcUrl });
 	}
 });
