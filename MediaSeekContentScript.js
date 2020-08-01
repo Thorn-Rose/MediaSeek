@@ -1,6 +1,26 @@
 var browser = browser || chrome;
 var lastTargetElement = null;
 
+const writeUrlToClipboard = (url) => {
+    if (navigator.clipboard) {
+        navigator.clipboard.writeText(srcUrl.toString());
+    } else {
+        const element = document.createElement('textarea');
+
+        element.value = url.toString();
+        element.style.position = 'fixed';
+        element.style.opacity  = '0';
+
+        document.body.appendChild(element);
+
+        element.focus();
+        element.select();
+
+        document.execCommand('copy');
+        document.body.removeChild(element);
+    }
+};
+
 document.addEventListener('contextmenu', (event) => {
     lastTargetElement = event.target;
     console.log(lastTargetElement);
@@ -21,6 +41,6 @@ browser.runtime.onMessage.addListener((message) => {
         srcUrl.hash = `t=${Math.round(lastTargetElement.currentTime)}`;
         console.log(srcUrl);
 
-        navigator.clipboard.writeText(srcUrl.toString());
+        writeUrlToClipboard(srcUrl);
     }
 });

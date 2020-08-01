@@ -15,5 +15,5 @@
       "js": ["MediaSeekContentScript.js"]
     }
   ],
-  "permissions": ["contextMenus", "activeTab"]
+  "permissions": ["contextMenus", "activeTab", "clipboardWrite"]
 }
